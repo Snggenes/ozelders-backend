@@ -4,6 +4,7 @@ import express from "express";
 import errorMiddleware from "./middlewares/error-middleware";
 
 import authRoute from "./routes/auth";
+import lessonRoute from "./routes/lesson";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRoute);
+app.use("/lesson", lessonRoute);
 
 app.use(errorMiddleware);
 

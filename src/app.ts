@@ -5,6 +5,8 @@ import errorMiddleware from "./middlewares/error-middleware";
 
 import authRoute from "./routes/auth";
 import lessonRoute from "./routes/lesson";
+import lessonPlaceRoute from "./routes/lesson-places";
+import locationRoute from "./routes/location";
 
 const app = express();
 
@@ -24,6 +26,8 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRoute);
 app.use("/lesson", lessonRoute);
+app.use("/lesson-place", lessonPlaceRoute);
+app.use("/location", locationRoute);
 
 app.use(errorMiddleware);
 

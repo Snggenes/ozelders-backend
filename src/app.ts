@@ -7,6 +7,7 @@ import authRoute from "./routes/auth";
 import lessonRoute from "./routes/lesson";
 import lessonPlaceRoute from "./routes/lesson-places";
 import locationRoute from "./routes/location";
+import teacherRoute from "./routes/teacher";
 
 const app = express();
 
@@ -24,10 +25,18 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello World" });
 });
 
+app.get("/cloudinary", (req, res) => {
+  const preset = process.env.UPLOAD_PRESET;
+  const cloudName = process.env.CLOUD_NAME;
+
+  res.json({ preset, cloudName });
+});
+
 app.use("/auth", authRoute);
 app.use("/lesson", lessonRoute);
 app.use("/lesson-place", lessonPlaceRoute);
 app.use("/location", locationRoute);
+app.use("/teacher", teacherRoute);
 
 app.use(errorMiddleware);
 

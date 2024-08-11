@@ -1,5 +1,7 @@
 import { Router } from "express";
+
 import UserModel from "../models/user";
+import TeacherModel from "../models/teacher";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -46,9 +48,13 @@ router.post("/login", async (req, res, next) => {
     if (!email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const user = await UserModel.findOne({ email });
+    let user = await UserModel.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      user = await TeacherModel.findOne({ email });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
     }
     const match = await bcrypt.compare(password, user.password!);
     if (!match) {
@@ -82,9 +88,14 @@ router.get("/profile", async (req, res, next) => {
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
     // @ts-ignore
-    const user = await UserModel.findOne({ email: decoded.email });
+    let user = await UserModel.findOne({ email: decoded.email });
     if (!user) {
-      return res.status(404).json(null);
+      // @ts-ignore
+      user = await TeacherModel.findOne({ email: decoded.email });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
     }
     const safeUser = { ...user.toObject() };
     delete safeUser.password;

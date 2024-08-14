@@ -16,8 +16,8 @@ export type TTeacher = {
   lessons: string[];
   lessonPlaces: string[];
   lessonDistricts: string[];
-  photo?: string;
-  video?: string;
+  photo: string;
+  video: string;
   dateOfBirth: Date;
   about: string;
   lessonPrice: number;
@@ -31,12 +31,12 @@ const TeacherSchema = new mongoose.Schema<TTeacher>({
   email: { type: String, required: true },
   password: { type: String, required: true },
   address: {
-    city: { type: String, required: true },
-    district: { type: String, required: true },
+    city: { type: String, default: "" },
+    district: { type: String, default: "" },
   },
   lessons: [{ type: String, required: true }],
-  lessonPlaces: [{ type: String, required: true }],
-  lessonDistricts: [{ type: String, required: true }],
+  lessonPlaces: [{ type: String, default: [] }],
+  lessonDistricts: [{ type: String, default: [] }],
   photo: { type: String, default: "" },
   video: { type: String, default: "" },
   dateOfBirth: { type: Date, required: true },

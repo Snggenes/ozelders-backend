@@ -6,7 +6,13 @@ router.get("/city", async (req, res, next) => {
   const locationUrl = process.env.LOCATION_URL;
   const { search } = req.query;
   if (!search) {
-    return;
+    const response = await fetch(`${locationUrl}?limit=10`);
+    if (!response.ok) {
+      throw new Error("Location service unavailable");
+    }
+    const data = await response.json();
+    const citiesArray = data.data.map((city: any) => city.name);
+    return res.json(citiesArray);
   }
   try {
     const response = await fetch(`${locationUrl}?name=${search}`);

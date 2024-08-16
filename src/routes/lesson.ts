@@ -11,14 +11,17 @@ router.get("/", async (req, res, next) => {
     if (search) {
       const lessons = await LessonModel.find({
         label: { $regex: search, $options: "i" },
-      });
-      res.status(200).json(lessons);
+      }).limit(10);
+      const lessonArray = lessons.map((lesson) => lesson.label);
+
+      res.status(200).json(lessonArray);
       return;
     }
 
-    const lessons = await LessonModel.find();
+    const lessons = await LessonModel.find().limit(10);
+    const lessonArray = lessons.map((lesson) => lesson.label);
 
-    res.status(200).json(lessons);
+    res.status(200).json(lessonArray);
   } catch (error) {
     next(error);
   }

@@ -8,6 +8,7 @@ import lessonRoute from "./routes/lesson";
 import lessonPlaceRoute from "./routes/lesson-places";
 import locationRoute from "./routes/location";
 import teacherRoute from "./routes/teacher";
+import teacherInfoRoute from "./routes/teacher-info";
 
 const app = express();
 
@@ -37,6 +38,8 @@ app.use("/lesson", lessonRoute);
 app.use("/lesson-place", lessonPlaceRoute);
 app.use("/location", locationRoute);
 app.use("/teacher", teacherRoute);
+app.use("/teacher-info", teacherInfoRoute);
+
 
 app.use(errorMiddleware);
 

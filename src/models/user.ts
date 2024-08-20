@@ -6,6 +6,7 @@ export type TUser = {
   lastname: string;
   email: string;
   password?: string;
+  role: string;
 };
 
 const UserSchema = new mongoose.Schema<TUser>({
@@ -13,6 +14,7 @@ const UserSchema = new mongoose.Schema<TUser>({
   lastname: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String },
+  role: { type: String, default: "user" },
 });
 
 const UserModel = mongoose.model<TUser>("User", UserSchema);

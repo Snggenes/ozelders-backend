@@ -88,18 +88,20 @@ router.get("/profile", async (req, res, next) => {
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
     // @ts-ignore
-    let user = await UserModel.findOne({ email: decoded.email });
-    if (!user) {
-      // @ts-ignore
-      user = await TeacherModel.findOne({ email: decoded.email });
-
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
+    const user = await UserModel.findOne({ email: decoded.email });
+    if (user) {
+      const safeUser = { ...user.toObject() };
+      delete safeUser.password;
+      return res.status(200).json(safeUser);
     }
-    const safeUser = { ...user.toObject() };
-    delete safeUser.password;
-    res.status(200).json(safeUser);
+
+    // @ts-ignore
+    const teacher = await TeacherModel.findOne({ email: decoded.email });
+    if (teacher) {
+      const safeTeacher = { ...teacher.toObject() };
+      delete safeTeacher.password;
+      return res.status(200).json(safeTeacher);
+    }
   } catch (error) {
     next(error);
   }

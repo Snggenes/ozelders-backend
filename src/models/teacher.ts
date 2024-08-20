@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import type { TTeacherInfo } from "./teacher-info";
 
 export type TAddress = {
   city: string;
@@ -10,18 +11,10 @@ export type TTeacher = {
   firstname: string;
   lastname: string;
   email: string;
-  password: string;
+  password?: string;
   phone: string;
-  address: TAddress;
-  lessons: string[];
-  lessonPlaces: string[];
-  lessonDistricts: string[];
-  photo: string;
-  video: string;
   dateOfBirth: Date;
-  about: string;
-  lessonPrice: number;
-  reviews: string[];
+  role: string;
 };
 
 const TeacherSchema = new mongoose.Schema<TTeacher>({
@@ -30,19 +23,8 @@ const TeacherSchema = new mongoose.Schema<TTeacher>({
   phone: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  address: {
-    city: { type: String, default: "" },
-    district: { type: String, default: "" },
-  },
-  lessons: [{ type: String, required: true }],
-  lessonPlaces: [{ type: String, default: [] }],
-  lessonDistricts: [{ type: String, default: [] }],
-  photo: { type: String, default: "" },
-  video: { type: String, default: "" },
   dateOfBirth: { type: Date, required: true },
-  about: { type: String, required: true },
-  lessonPrice: { type: Number, required: true },
-  reviews: [{ type: String, default: [] }],
+  role: { type: String, default: "teacher" },
 });
 
 const TeacherModel = mongoose.model<TTeacher>("Teacher", TeacherSchema);
